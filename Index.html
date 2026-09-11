@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b57d0">
+  <title>MWELEKEO App</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    header {
+      background: #0b57d0;
+      color: white;
+      text-align: center;
+      padding: 22px 15px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 6px;
+    }
+
+    nav {
+      display: flex;
+      overflow-x: auto;
+      background: white;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav button {
+      border: none;
+      background: white;
+      padding: 15px 17px;
+      min-width: 105px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav button.active {
+      background: #e8f0fe;
+      color: #0b57d0;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .welcome,
+    .box,
+    .card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+    }
+
+    .welcome {
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .welcome h2,
+    .section-title,
+    .card h3 {
+      color: #0b57d0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      padding: 20px;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+    }
+
+    .box {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0 14px;
+      border: 1px solid #ccd3df;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .primary {
+      background: #0b57d0;
+      color: white;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary:hover {
+      background: #0846aa;
+    }
+
+    .item {
+      background: #f0f4fa;
+      padding: 13px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
+    .chat {
+      min-height: 220px;
+      max-height: 450px;
+      overflow-y: auto;
+      background: #f5f7fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .message {
+      padding: 11px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      white-space: pre-wrap;
+    }
+
+    .user-message {
+      background: #dce9ff;
+      text-align: right;
+    }
+
+    .ai-message {
+      background: white;
+    }
+
+    .status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    footer {
+      background: #172033;
+      color: white;
+      text-align: center;
+      padding: 25px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 12px;
+      }
+
+      header h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎓 MWELEKEO</h1>
+  <p>Karibu MWELEKEO — Msaidizi wako wa masomo</p>
+</header>
+
+<nav>
+  <button class="active" onclick="showPage('home', this)">Nyumbani</button>
+  <button onclick="showPage('library', this)">Maktaba</button>
+  <button onclick="showPage('notes', this)">Notes</button>
+  <button onclick="showPage('schedule', this)">Ratiba</button>
+  <button onclick="showPage('ai', this)">AI Msaidizi</button>
+  <button onclick="showPage('comments', this)">💬 Maoni</button>
+</nav>
+
+<main>
+
+  <!-- NYUMBANI -->
+  <section id="home" class="page active">
+
+    <div class="welcome">
+      <h2>Karibu MWELEKEO</h2>
+      <p>
+        MWELEKEO ni app ya kuwasaidia wanafunzi wa chuo
+        kusoma, kupanga ratiba, kuhifadhi notes na kupata
+        msaada wa masomo.
+      </p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card" onclick="showPage('library')">
+        <h3>📚 Maktaba</h3>
+        <p>Study materials na upload notes.</p>
+      </div>
+
+      <div class="card" onclick="showPage('notes')">
+        <h3>📝 Notes</h3>
+        <p>Andika na hifadhi notes zako.</p>
+      </div>
+
+      <div class="card" onclick="showPage('schedule')">
+        <h3>📅 Ratiba</h3>
+        <p>Panga ratiba yako ya masomo.</p>
+      </div>
+
+      <div class="card" onclick="showPage('ai')">
+        <h3>🤖 AI Msaidizi</h3>
+        <p>Uliza maswali ya masomo.</p>
+      </div>
+
+      <div class="card" onclick="showPage('comments')">
+        <h3>💬 Sanduku la Maoni</h3>
+        <p>Tuma maoni na mapendekezo.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- MAKTABA -->
+  <section id="library" class="page">
+
+    <h2 class="section-title">📚 Maktaba ya Masomo</h2>
+
+    <div class="box">
+
+      <h3>⬆️ Upload Notes / Study Material</h3>
+
+      <p>Chagua faili kutoka kwenye simu yako.</p>
+
+      <input type="file" id="libraryFile">
+
+      <button class="primary" onclick="uploadFile()">
+        Upload Notes
+      </button>
+
+      <div id="uploadStatus" class="status"></div>
+
+      <div id="fileList"></div>
+
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>📖 Accounting</h3>
+        <p>Notes na maswali ya Accounting.</p>
+      </div>
+
+      <div class="card">
+        <h3>💰 Finance</h3>
+        <p>Materials za Finance.</p>
+      </div>
+
+      <div class="card">
+        <h3>📊 Economics</h3>
+        <p>Materials za Economics.</p>
+      </div>
+
+      <div class="card">
+        <h3>⚖️ Law</h3>
+        <p>Materials za Law.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- NOTES -->
+  <section id="notes" class="page">
+
+    <h2 class="section-title">📝 Notes</h2>
+
+    <div class="box">
+
+      <h3>Ongeza Note Mpya</h3>
+
+      <input
+        id="noteTitle"
+        type="text"
+        placeholder="Jina la note"
+      >
+
+      <textarea
+        id="noteContent"
+        rows="8"
+        placeholder="Andika note yako hapa..."
+      ></textarea>
+
+      <button class="primary" onclick="saveNote()">
+        Hifadhi Note
+      </button>
+
+      <div id="notesList"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RATIBA -->
+  <section id="schedule" class="page">
+
+    <h2 class="section-title">📅 Ratiba ya Masomo</h2>
+
+    <div class="box">
+
+      <select id="day">
+        <option>Jumatatu</option>
+        <option>Jumanne</option>
+        <option>Jumatano</option>
+        <option>Alhamisi</option>
+        <option>Ijumaa</option>
+        <option>Jumamosi</option>
+        <option>Jumapili</option>
+      </select>
+
+      <input id="time" type="time">
+
+      <input
+        id="subject"
+        type="text"
+        placeholder="Jina la somo"
+      >
+
+      <button class="primary" onclick="addSchedule()">
+        Ongeza kwenye Ratiba
+      </button>
+
+      <div id="scheduleList"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- AI -->
+  <section id="ai" class="page">
+
+    <h2 class="section-title">🤖 AI Msaidizi</h2>
+
+    <div class="box">
+
+      <div id="chat" class="chat">
+
+        <div class="message ai-message">
+          <b>MWELEKEO AI:</b><br>
+          Karibu! Niulize swali la masomo.
+        </div>
+
+      </div>
+
+      <textarea
+        id="question"
+        rows="4"
+        placeholder="Andika swali lako hapa..."
+      ></textarea>
+
+      <button
+        id="askButton"
+        class="primary"
+        onclick="askAI()"
+      >
+        Tuma Swali
+      </button>
+
+      <div id="aiStatus" class="status"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MAONI -->
+  <section id="comments" class="page">
+
+    <h2 class="section-title">💬 Sanduku la Maoni</h2>
+
+    <div class="box">
+
+      <h3>Tunataka kusikia kutoka kwako</h3>
+
+      <p>
+        Tuma maoni, pendekezo au ripoti ya tatizo kuhusu MWELEKEO.
+      </p>
+
+      <input
+        id="commentName"
+        type="text"
+        placeholder="Jina lako (hiari)"
+      >
+
+      <select id="commentType">
+        <option>Maoni</option>
+        <option>Pendekezo</option>
+        <option>Ripoti Tatizo</option>
+        <option>Pongezi</option>
+      </select>
+
+      <textarea
+        id="commentText"
+        rows="7"
+        placeholder="Andika maoni yako..."
+      ></textarea>
+
+      <button class="primary" onclick="sendComment()">
+        Tuma Maoni
+      </button>
+
+      <div id="commentStatus" class="status"></div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 MWELEKEO App</p>
+  <p>Study • Learn • Grow</p>
+</footer>
+
+
+<script>
+
+  /*
+   * SUPABASE EDGE FUNCTION
+   * Hii ndiyo backend ya AI Msaidizi.
+   */
+  const AI_FUNCTION_URL =
+    "https://jhwrqiavorsmcqubqlug.supabase.co/functions/v1/ai-assistant";
+
+
+  /* NAVIGATION */
+  function showPage(pageId, button) {
+
+    document.querySelectorAll(".page").forEach(function(page) {
+      page.classList.remove("active");
+    });
+
+    const page = document.getElementById(pageId);
+
+    if (page) {
+      page.classList.add("active");
+    }
+
+    document.querySelectorAll("nav button").forEach(function(btn) {
+      btn.classList.remove("active");
+    });
+
+    if (button) {
+      button.classList.add("active");
+    }
+
+    window.scrollTo(0, 0);
+  }
+
+
+  /* UPLOAD */
+  function uploadFile() {
+
+    const input = document.getElementById("libraryFile");
+    const status = document.getElementById("uploadStatus");
+    const list = document.getElementById("fileList");
+
+    if (!input.files.length) {
+      showStatus(
+        status,
+        "Tafadhali chagua faili kwanza.",
+        false
+      );
+      return;
+    }
+
+    const file = input.files[0];
+
+    const item = document.createElement("div");
+    item.className = "item";
+
+    item.innerHTML =
+      "📄 <b>" +
+      escapeHTML(file.name) +
+      "</b><br>" +
+      "Ukubwa: " +
+      Math.round(file.size / 1024) +
+      " KB";
+
+    list.appendChild(item);
+
+    showStatus(
+      status,
+      "✅ Faili limeongezwa kwenye Maktaba.",
+      true
+    );
+
+    input.value = "";
+  }
+
+
+  /* NOTES */
+  function saveNote() {
+
+    const title =
+      document.getElementById("noteTitle").value.trim();
+
+    const content =
+      document.getElementById("noteContent").value.trim();
+
+    if (!title || !content) {
+      alert("Jaza jina na maudhui ya note.");
+      return;
+    }
+
+    const notes =
+      JSON.parse(
+        localStorage.getItem("mwelekeo_notes") || "[]"
+      );
+
+    notes.push({
+      title: title,
+      content: content,
+      date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+      "mwelekeo_notes",
+      JSON.stringify(notes)
+    );
+
+    document.getElementById("noteTitle").value = "";
+    document.getElementById("noteContent").value = "";
+
+    displayNotes();
+  }
+
+
+  function displayNotes() {
+
+    const list = document.getElementById("notesList");
+
+    const notes =
+      JSON.parse(
+        localStorage.getItem("mwelekeo_notes") || "[]"
+      );
+
+    list.innerHTML = "";
+
+    notes.forEach(function(note) {
+
+      const item = document.createElement("div");
+
+      item.className = "item";
+
+      item.innerHTML =
+        "<h3>" +
+        escapeHTML(note.title) +
+        "</h3>" +
+        "<p>" +
+        escapeHTML(note.content) +
+        "</p>" +
+        "<small>" +
+        escapeHTML(note.date) +
+        "</small>";
+
+      list.appendChild(item);
+
+    });
+  }
+
+
+  /* RATIBA */
+  function addSchedule() {
+
+    const day =
+      document.getElementById("day").value;
+
+    const time =
+      document.getElementById("time").value;
+
+    const subject =
+      document.getElementById("subject").value.trim();
+
+    if (!time || !subject) {
+      alert("Weka muda na jina la somo.");
+      return;
+    }
+
+    const schedules =
+      JSON.parse(
+        localStorage.getItem("mwelekeo_schedule") || "[]"
+      );
+
+    schedules.push({
+      day: day,
+      time: time,
+      subject: subject
+    });
+
+    localStorage.setItem(
+      "mwelekeo_schedule",
+      JSON.stringify(schedules)
+    );
+
+    document.getElementById("time").value = "";
+    document.getElementById("subject").value = "";
+
+    displaySchedule();
+  }
+
+
+  function displaySchedule() {
+
+    const list =
+      document.getElementById("scheduleList");
+
+    const schedules =
+      JSON.parse(
+        localStorage.getItem("mwelekeo_schedule") || "[]"
+      );
+
+    list.innerHTML = "";
+
+    schedules.forEach(function(item) {
+
+      const div = document.createElement("div");
+
+      div.className = "item";
+
+      div.innerHTML =
+        "📅 <b>" +
+        escapeHTML(item.day) +
+        "</b> — " +
+        escapeHTML(item.time) +
+        "<br>" +
+        "📚 " +
+        escapeHTML(item.subject);
+
+      list.appendChild(div);
+
+    });
+  }
+
+
+  /*
+   * AI ASSISTANT
+   */
+  async function askAI() {
+
+    const questionInput =
+      document.getElementById("question");
+
+    const chat =
+      document.getElementById("chat");
+
+    const button =
+      document.getElementById("askButton");
+
+    const status =
+      document.getElementById("aiStatus");
+
+    const question =
+      questionInput.value.trim();
+
+    if (!question) {
+      showStatus(
+        status,
+        "Tafadhali andika swali kwanza.",
+        false
+      );
+      return;
+    }
+
+    /* Onyesha swali la mwanafunzi */
+    const userMessage =
+      document.createElement("div");
+
+    userMessage.className =
+      "message user-message";
+
+    userMessage.innerHTML =
+      "<b>Wewe:</b><br>" +
+      escapeHTML(question);
+
+    chat.appendChild(userMessage);
+
+    questionInput.value = "";
+
+    button.disabled = true;
+    button.innerText = "AI inafikiri...";
+
+    showStatus(
+      status,
+      "⏳ Inatafuta jibu...",
+      true
+    );
+
+    try {
+
+      const response =
+        await fetch(
+          AI_FUNCTION_URL,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+              question: question,
+              message: question
+            })
+          }
+        );
+
+      const rawText =
+        await response.text();
+
+      let data = {};
+
+      try {
+        data = JSON.parse(rawText);
+      } catch (e) {
+        data = {
+          response: rawText
+        };
+      }
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          data.message ||
+          "Backend imeshindwa kujibu."
+        );
+      }
+
+      /*
+       * Tunakubali majina mbalimbali
+       * ambayo Edge Function inaweza kurudisha.
+       */
+      const answer =
+        data.answer ||
+        data.response ||
+        data.message ||
+        data.result ||
+        data.output;
+
+      if (!answer) {
+
+        throw new Error(
+          "Backend imerudisha jibu lisilotambulika."
+        );
+      }
+
+      const aiMessage =
+        document.createElement("div");
+
+      aiMessage.className =
+        "message ai-message";
+
+      aiMessage.innerHTML =
+        "<b>MWELEKEO AI:</b><br>" +
+        escapeHTML(String(answer));
+
+      chat.appendChild(aiMessage);
+
+      showStatus(
+        status,
+        "✅ Jibu limepatikana.",
+        true
+      );
+
+    } catch (error) {
+
+      console.error("AI ERROR:", error);
+
+      const errorMessage =
+        document.createElement("div");
+
+      errorMessage.className =
+        "message ai-message";
+
+      errorMessage.innerHTML =
+        "<b>MWELEKEO AI:</b><br>" +
+        "Samahani, AI haikuweza kujibu kwa sasa." +
+        "<br><small>" +
+        escapeHTML(error.message) +
+        "</small>";
+
+      chat.appendChild(errorMessage);
+
+      showStatus(
+        status,
+        "❌ Kuna tatizo kwenye connection ya AI.",
+        false
+      );
+
+    } finally {
+
+      button.disabled = false;
+      button.innerText = "Tuma Swali";
+
+      chat.scrollTop =
+        chat.scrollHeight;
+    }
+  }
+
+
+  /* ENTER / CTRL+ENTER */
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.target.id === "question" &&
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
+
+        event.preventDefault();
+
+        askAI();
+      }
+
+    }
+  );
+
+
+  /* COMMENTS */
+  function sendComment() {
+
+    const name =
+      document
+        .getElementById("commentName")
+        .value
+        .trim();
+
+    const type =
+      document
+        .getElementById("commentType")
+        .value;
+
+    const text =
+      document
+        .getElementById("commentText")
+        .value
+        .trim();
+
+    const status =
+      document.getElementById("commentStatus");
+
+    if (!text) {
+
+      showStatus(
+        status,
+        "Tafadhali andika maoni yako kwanza.",
+        false
+      );
+
+      return;
+    }
+
+    const comments =
+      JSON.parse(
+        localStorage.getItem("mwelekeo_comments") || "[]"
+      );
+
+    comments.push({
+      name: name || "Mwanafunzi",
+      type: type,
+      text: text,
+      date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+      "mwelekeo_comments",
+      JSON.stringify(comments)
+    );
+
+    document.getElementById("commentName").value = "";
+    document.getElementById("commentText").value = "";
+
+    showStatus(
+      status,
+      "✅ Asante! Maoni yako yamepokelewa.",
+      true
+    );
+  }
+
+
+  /* STATUS */
+  function showStatus(element, text, success) {
+
+    element.style.display = "block";
+    element.innerText = text;
+
+    if (success) {
+      element.style.background = "#e8f0fe";
+    } else {
+      element.style.background = "#ffe8e8";
+    }
+  }
+
+
+  /* SECURITY */
+  function escapeHTML(text) {
+
+    const div =
+      document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+  }
+
+
+  /* LOAD */
+  window.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+      displayNotes();
+      displaySchedule();
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
