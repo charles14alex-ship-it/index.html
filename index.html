@@ -8,10 +8,12 @@
 body{font-family:Arial;margin:0;background:#f4f7fb;color:#172033}
 header{background:#182848;color:white;padding:18px;text-align:center}
 nav{display:flex;flex-wrap:wrap;gap:7px;padding:10px;background:white}
-button{border:0;border-radius:8px;padding:10px;background:#182848;color:white}
+button{border:0;border-radius:8px;padding:10px;background:#182848;color:white;cursor:pointer}
+button:hover{background:#0f1929}
 main{padding:15px}.page{display:none}.active{display:block}
 .card{background:white;padding:15px;margin:10px 0;border-radius:12px;box-shadow:0 2px 8px #ddd}
 input,textarea,select{width:100%;box-sizing:border-box;padding:11px;margin:7px 0;border:1px solid #ccc;border-radius:8px}
+.auth-section{background:#f0f0f0;padding:15px;border-radius:8px;margin-bottom:15px}
 </style>
 </head>
 
@@ -29,9 +31,25 @@ input,textarea,select{width:100%;box-sizing:border-box;padding:11px;margin:7px 0
 <button onclick="show('ai')">🤖 AI Msaidizi</button>
 <button onclick="show('exam')">🎯 Exam Mode</button>
 <button onclick="show('discussion')">💬 Discussion</button>
+<button onclick="show('auth')">👤 Account</button>
 </nav>
 
 <main>
+
+<!-- Authentication Section -->
+<section id="auth" class="page">
+<div class="card">
+<h2>👤 Account</h2>
+<div class="auth-section">
+<h3>Ingia / Usajili</h3>
+<input type="email" id="authEmail" placeholder="Email yako">
+<input type="password" id="authPassword" placeholder="Password">
+<button onclick="handleAuthSignUp()">Usajili</button>
+<button onclick="handleAuthSignIn()">Ingia</button>
+<button onclick="handleAuthSignOut()">Toka</button>
+</div>
+</div>
+</section>
 
 <section id="home" class="page active">
 <div class="card">
@@ -46,7 +64,7 @@ input,textarea,select{width:100%;box-sizing:border-box;padding:11px;margin:7px 0
 <h2>📚 Maktaba</h2>
 <p>Notes, maswali na study materials.</p>
 <input type="file" id="file">
-<button onclick="upload()">Upload File</button>
+<button onclick="handleUpload()">Upload File</button>
 <div id="files"></div>
 </div>
 </section>
@@ -55,7 +73,7 @@ input,textarea,select{width:100%;box-sizing:border-box;padding:11px;margin:7px 0
 <div class="card">
 <h2>📝 Notes</h2>
 <textarea id="note" placeholder="Andika note yako..."></textarea>
-<button onclick="saveNote()">Save Note</button>
+<button onclick="handleSaveNote()">Save Note</button>
 <div id="notesList"></div>
 </div>
 </section>
@@ -65,7 +83,7 @@ input,textarea,select{width:100%;box-sizing:border-box;padding:11px;margin:7px 0
 <h2>📅 Ratiba ya Masomo</h2>
 <input id="subject" placeholder="Somo">
 <input id="time" placeholder="Muda mfano 10:00">
-<button onclick="saveSchedule()">Ongeza Ratiba</button>
+<button onclick="handleSaveSchedule()">Ongeza Ratiba</button>
 <div id="schedule"></div>
 </div>
 </section>
@@ -99,85 +117,80 @@ input,textarea,select{width:100%;box-sizing:border-box;padding:11px;margin:7px 0
 <div class="card">
 <h2>💬 Discussion</h2>
 <textarea id="post" placeholder="Andika ujumbe..."></textarea>
-<button onclick="post()">Post</button>
+<button onclick="handlePost()">Post</button>
 <div id="posts"></div>
 </div>
 </section>
 
 </main>
 
+<!-- Supabase Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0/dist/module.js" type="module"></script>
+
+<!-- Load Supabase via import for module support -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0/dist/module.js';
+  
+  // Make supabase globally available
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your Supabase URL
+  const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase Anon Key
+  
+  window.supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+
+<!-- Main App Script -->
+<script src="app.js"></script>
+
 <script>
-function show(id){
-document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+// Wrapper functions for handling
+function handleAuthSignUp() {
+  const email = document.getElementById('authEmail').value;
+  const password = document.getElementById('authPassword').value;
+  if (!email || !password) return alert('Jaza email na password');
+  signUp(email, password);
 }
 
-function upload(){
-let f=document.getElementById('file').files[0];
-if(!f)return alert('Chagua file kwanza');
-document.getElementById('files').innerHTML+=
-'<p>📄 '+f.name+'</p>';
+function handleAuthSignIn() {
+  const email = document.getElementById('authEmail').value;
+  const password = document.getElementById('authPassword').value;
+  if (!email || !password) return alert('Jaza email na password');
+  signIn(email, password);
 }
 
-function saveNote(){
-let n=document.getElementById('note').value;
-if(!n)return;
-document.getElementById('notesList').innerHTML+='<div class="card">'+n+'</div>';
-document.getElementById('note').value='';
+function handleAuthSignOut() {
+  signOut();
+  alert('Umetoka sehemu');
 }
 
-function saveSchedule(){
-let s=document.getElementById('subject').value;
-let t=document.getElementById('time').value;
-if(!s)return;
-document.getElementById('schedule').innerHTML+=
-'<div class="card">📚 '+s+' — ⏰ '+t+'</div>';
+function handleUpload() {
+  let f = document.getElementById('file').files[0];
+  if (!f) return alert('Chagua file kwanza');
+  
+  uploadFile(f).then(() => {
+    document.getElementById('files').innerHTML += '<p>📄 ' + f.name + '</p>';
+    document.getElementById('file').value = '';
+  });
 }
 
-function ask(){
-let q=document.getElementById('question').value;
-if(!q)return;
-document.getElementById('answer').innerHTML=
-'<b>AI Msaidizi:</b><br>Swali lako limepokelewa: '+q+
-'<br><br>Hii ni prototype ya MWELEKEO. Ili AI ijibu maswali halisi, tutaunganisha AI API kwenye backend.';
+function handleSaveNote() {
+  let n = document.getElementById('note').value;
+  if (!n) return;
+  saveNote(n);
 }
 
-function speak(){
-let a=document.getElementById('answer').innerText;
-speechSynthesis.cancel();
-speechSynthesis.speak(new SpeechSynthesisUtterance(a));
+function handleSaveSchedule() {
+  let s = document.getElementById('subject').value;
+  let t = document.getElementById('time').value;
+  if (!s || !t) return alert('Jaza somo na muda');
+  saveSchedule(s, t);
 }
 
-function speechRecognition(){
-let R=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(!R)return alert('Browser yako haisapoti voice recognition');
-let r=new R();
-r.lang='sw-TZ';
-r.onresult=e=>{
-document.getElementById('question').value=e.results[0][0].transcript;
-};
-r.start();
-}
-
-function solveExam(){
-let q=document.getElementById('examQuestion').value;
-if(!q)return;
-document.getElementById('examAnswer').innerHTML=
-'<div class="card">'+
-'<h3>DATA GIVEN</h3><p>'+q+'</p>'+
-'<h3>FORMULA</h3><p>Identify the appropriate formula from the question.</p>'+
-'<h3>SOLVING / WORKING</h3><p>Show all calculations step by step.</p>'+
-'<h3>FINAL ANSWER</h3><p>Write the final answer clearly.</p>'+
-'</div>';
-}
-
-function post(){
-let p=document.getElementById('post').value;
-if(!p)return;
-document.getElementById('posts').innerHTML+=
-'<div class="card">💬 '+p+'</div>';
-document.getElementById('post').value='';
+function handlePost() {
+  let p = document.getElementById('post').value;
+  if (!p) return;
+  post(p);
 }
 </script>
+
 </body>
 </html>
