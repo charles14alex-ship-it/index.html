@@ -1,196 +1,232 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MWELEKEO APP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MWELEKEO - AI Study App</title>
 <style>
-body{font-family:Arial;margin:0;background:#f4f7fb;color:#172033}
-header{background:#182848;color:white;padding:18px;text-align:center}
-nav{display:flex;flex-wrap:wrap;gap:7px;padding:10px;background:white}
-button{border:0;border-radius:8px;padding:10px;background:#182848;color:white;cursor:pointer}
-button:hover{background:#0f1929}
-main{padding:15px}.page{display:none}.active{display:block}
-.card{background:white;padding:15px;margin:10px 0;border-radius:12px;box-shadow:0 2px 8px #ddd}
-input,textarea,select{width:100%;box-sizing:border-box;padding:11px;margin:7px 0;border:1px solid #ccc;border-radius:8px}
-.auth-section{background:#f0f0f0;padding:15px;border-radius:8px;margin-bottom:15px}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:#152a52;color:white;padding:18px 16px;position:sticky;top:0;z-index:5}
+.brand{font-size:25px;font-weight:800}.sub{opacity:.8;font-size:12px;margin-top:3px}
+nav{display:flex;gap:7px;overflow:auto;margin-top:14px}nav button{border:0;background:#294577;color:white;padding:9px 12px;border-radius:20px;white-space:nowrap}
+main{max-width:1000px;margin:auto;padding:18px}.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(135deg,#18376e,#4b73c7);color:white;border-radius:20px;padding:25px;margin-bottom:18px}
+h1,h2,h3{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.card{background:white;border-radius:16px;padding:17px;box-shadow:0 3px 15px #00000010}
+button,.btn{cursor:pointer;border:0;border-radius:10px;padding:11px 15px;background:#2455a6;color:white;font-weight:600}
+.secondary{background:#e9eef8;color:#17315d}.danger{background:#c63d3d}
+input,textarea,select{width:100%;padding:12px;border:1px solid #d5dbea;border-radius:10px;margin:7px 0 12px;font:inherit}
+textarea{min-height:110px;resize:vertical}.plans .card{border:2px solid transparent}.plans .featured{border-color:#2455a6}
+.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#edf2ff;color:#2455a6;font-size:12px;font-weight:bold}
+.item{padding:12px;border-bottom:1px solid #edf0f6}.item:last-child{border:0}
+.small{font-size:13px;color:#68738a}.status{margin-top:10px;font-size:13px}
+footer{text-align:center;padding:25px;color:#70798b}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;padding:20px}.modal.open{display:flex;align-items:center;justify-content:center}.modalbox{background:white;max-width:500px;width:100%;padding:20px;border-radius:18px}
+@media(max-width:600px){main{padding:12px}.hero{padding:19px}.grid{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 <header>
-<h1>🎓 MWELEKEO</h1>
-<p>AI Study App kwa Wanachuo</p>
+  <div class="brand">MWELEKEO</div>
+  <div class="sub">AI-powered university study companion</div>
+  <nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('library')">Library</button>
+    <button onclick="showPage('notes')">Notes</button>
+    <button onclick="showPage('schedule')">Ratiba</button>
+    <button onclick="showPage('ai')">AI Msaidizi</button>
+    <button onclick="showPage('discussion')">Discussion</button>
+    <button onclick="showPage('questions')">Questions</button>
+    <button onclick="showPage('assignments')">Assignments</button>
+    <button onclick="showPage('plans')">Plans</button>
+    <button onclick="showPage('settings')">Language</button>
+  </nav>
 </header>
 
-<nav>
-<button onclick="show('home')">Home</button>
-<button onclick="show('library')">📚 Library</button>
-<button onclick="show('notes')">📝 Notes</button>
-<button onclick="show('ratiba')">📅 Ratiba</button>
-<button onclick="show('ai')">🤖 AI Msaidizi</button>
-<button onclick="show('exam')">🎯 Exam Mode</button>
-<button onclick="show('discussion')">💬 Discussion</button>
-<button onclick="show('auth')">👤 Account</button>
-</nav>
-
 <main>
-
-<!-- Authentication Section -->
-<section id="auth" class="page">
-<div class="card">
-<h2>👤 Account</h2>
-<div class="auth-section">
-<h3>Ingia / Usajili</h3>
-<input type="email" id="authEmail" placeholder="Email yako">
-<input type="password" id="authPassword" placeholder="Password">
-<button onclick="handleAuthSignUp()">Usajili</button>
-<button onclick="handleAuthSignIn()">Ingia</button>
-<button onclick="handleAuthSignOut()">Toka</button>
-</div>
-</div>
-</section>
-
 <section id="home" class="page active">
-<div class="card">
-<h2>Karibu MWELEKEO</h2>
-<p>Sehemu yako ya kusoma, kuuliza maswali na kupanga ratiba.</p>
-<button onclick="show('ai')">Anza na AI Msaidizi</button>
-</div>
+  <div class="hero">
+    <span class="badge">MWELEKEO STUDY HUB</span>
+    <h1>Study smarter. Move forward.</h1>
+    <p>Library, notes, timetable, questions, assignments, discussion and an AI study assistant in one place.</p>
+    <button onclick="showPage('ai')">Ask AI</button>
+    <button class="secondary" onclick="showPage('library')">Open Library</button>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>📚 Maktaba</h3><p>Organise study materials, notes and uploaded files.</p><button onclick="showPage('library')">Open</button></div>
+    <div class="card"><h3>🤖 AI Msaidizi</h3><p>Type or speak a question and listen to the answer.</p><button onclick="showPage('ai')">Start AI</button></div>
+    <div class="card"><h3>📅 Ratiba</h3><p>Create your personal study timetable.</p><button onclick="showPage('schedule')">My Schedule</button></div>
+    <div class="card"><h3>📝 Assignments</h3><p>Write, save and manage assignment work.</p><button onclick="showPage('assignments')">Open</button></div>
+  </div>
 </section>
 
 <section id="library" class="page">
-<div class="card">
-<h2>📚 Maktaba</h2>
-<p>Notes, maswali na study materials.</p>
-<input type="file" id="file">
-<button onclick="handleUpload()">Upload File</button>
-<div id="files"></div>
-</div>
+  <h2>📚 Library / Maktaba</h2>
+  <div class="grid">
+    <div class="card"><h3>Study Materials</h3><p>Notes, PDFs, documents and other learning files.</p><button onclick="showPage('notes')">View Notes</button></div>
+    <div class="card"><h3>Questions Bank</h3><p>Practice questions and revision.</p><button onclick="showPage('questions')">Practice</button></div>
+    <div class="card"><h3>Discussion</h3><p>Share ideas and discuss with other students.</p><button onclick="showPage('discussion')">Join</button></div>
+    <div class="card"><h3>Upload Files</h3><p>Add your own study material to this device.</p><button onclick="document.getElementById('fileInput').click()">Upload</button></div>
+  </div>
+  <input id="fileInput" type="file" multiple accept=".pdf,.doc,.docx,.txt,.ppt,.pptx,.jpg,.jpeg,.png" style="display:none" onchange="handleFiles(this.files)">
+  <div id="fileList" class="card" style="margin-top:15px"><b>Your uploaded files</b><p class="small">No files uploaded yet.</p></div>
 </section>
 
 <section id="notes" class="page">
-<div class="card">
-<h2>📝 Notes</h2>
-<textarea id="note" placeholder="Andika note yako..."></textarea>
-<button onclick="handleSaveNote()">Save Note</button>
-<div id="notesList"></div>
-</div>
+  <h2>📝 Notes</h2>
+  <div class="card">
+    <input id="noteTitle" placeholder="Note title">
+    <textarea id="noteText" placeholder="Write your study note here..."></textarea>
+    <button onclick="saveNote()">Save Note</button>
+  </div>
+  <div id="notesList" class="card" style="margin-top:15px"></div>
 </section>
 
-<section id="ratiba" class="page">
-<div class="card">
-<h2>📅 Ratiba ya Masomo</h2>
-<input id="subject" placeholder="Somo">
-<input id="time" placeholder="Muda mfano 10:00">
-<button onclick="handleSaveSchedule()">Ongeza Ratiba</button>
-<div id="schedule"></div>
-</div>
+<section id="schedule" class="page">
+  <h2>📅 Ratiba ya Masomo</h2>
+  <div class="card">
+    <input id="schSubject" placeholder="Subject / Course">
+    <input id="schDate" type="date">
+    <input id="schTime" type="time">
+    <input id="schDuration" placeholder="Duration e.g. 2 hours">
+    <button onclick="saveSchedule()">Add to schedule</button>
+  </div>
+  <div id="scheduleList" class="card" style="margin-top:15px"></div>
 </section>
 
 <section id="ai" class="page">
-<div class="card">
-<h2>🤖 AI Msaidizi</h2>
-<textarea id="question" placeholder="Andika swali lako hapa..."></textarea>
-<button onclick="ask()">Uliza AI</button>
-<button onclick="speak()">🔊 Soma Jibu</button>
-<button onclick="speechRecognition()">🎙️ Ongea</button>
-<div id="answer" class="card">Jibu litaonekana hapa.</div>
-</div>
-</section>
-
-<section id="exam" class="page">
-<div class="card">
-<h2>🎯 Exam Mode</h2>
-<select id="examSubject">
-<option>Accounting</option><option>Finance</option>
-<option>Economics</option><option>Mathematics</option>
-<option>Statistics</option><option>Taxation</option>
-</select>
-<textarea id="examQuestion" placeholder="Andika swali la hesabu..."></textarea>
-<button onclick="solveExam()">Solve in Exam Format</button>
-<div id="examAnswer"></div>
-</div>
+  <h2>🤖 AI Msaidizi</h2>
+  <div class="card">
+    <span class="badge" id="planBadge">FREE PLAN</span>
+    <p class="small">Ask a study question by typing or using your microphone. Browser voice support may vary by device.</p>
+    <textarea id="aiQuestion" placeholder="Example: Explain opportunity cost in simple terms..."></textarea>
+    <button onclick="askAI()">Ask AI</button>
+    <button class="secondary" onclick="startVoice()">🎙️ Speak</button>
+    <button class="secondary" onclick="stopVoice()">⏹ Stop</button>
+    <button class="secondary" onclick="speakAnswer()">🔊 Read answer</button>
+    <div id="voiceStatus" class="status"></div>
+  </div>
+  <div id="aiAnswer" class="card" style="margin-top:15px"><b>AI answer</b><p class="small">Your answer will appear here.</p></div>
 </section>
 
 <section id="discussion" class="page">
-<div class="card">
-<h2>💬 Discussion</h2>
-<textarea id="post" placeholder="Andika ujumbe..."></textarea>
-<button onclick="handlePost()">Post</button>
-<div id="posts"></div>
-</div>
+  <h2>💬 Discussion</h2>
+  <div class="card">
+    <input id="postName" placeholder="Your name">
+    <textarea id="postText" placeholder="Start a study discussion..."></textarea>
+    <button onclick="addPost()">Post discussion</button>
+  </div>
+  <div id="postsList" class="card" style="margin-top:15px"></div>
 </section>
 
+<section id="questions" class="page">
+  <h2>❓ Questions Bank</h2>
+  <div class="card">
+    <select id="questionSubject">
+      <option>General</option><option>Accounting</option><option>Economics</option><option>Finance</option><option>Taxation</option><option>Management</option><option>Other</option>
+    </select>
+    <textarea id="questionText" placeholder="Enter a question you want to practise..."></textarea>
+    <button onclick="saveQuestion()">Save Question</button>
+  </div>
+  <div id="questionsList" class="card" style="margin-top:15px"></div>
+</section>
+
+<section id="assignments" class="page">
+  <h2>📑 Assignments</h2>
+  <div class="card">
+    <input id="assTitle" placeholder="Assignment title">
+    <textarea id="assText" placeholder="Write your assignment or answer here..."></textarea>
+    <button onclick="saveAssignment()">Save Assignment</button>
+  </div>
+  <div id="assignmentsList" class="card" style="margin-top:15px"></div>
+</section>
+
+<section id="plans" class="page">
+  <h2>⭐ Free, Basic & Pro</h2>
+  <div class="grid plans">
+    <div class="card"><span class="badge">FREE</span><h3>Free</h3><p>Basic library access, notes, timetable, questions and limited AI.</p><button onclick="choosePlan('Free')">Choose Free</button></div>
+    <div class="card featured"><span class="badge">BASIC</span><h3>Basic</h3><p>More AI use, voice questions, AI answers read aloud, study tools and larger file access.</p><button onclick="choosePlan('Basic')">Choose Basic</button></div>
+    <div class="card"><span class="badge">PRO</span><h3>Pro</h3><p>Advanced study experience, higher AI limits, full study tools and priority features.</p><button onclick="choosePlan('Pro')">Choose Pro</button></div>
+  </div>
+  <div class="card" style="margin-top:15px">
+    <h3>💳 Payment Method</h3>
+    <p>Payment integration is ready for connection to your real payment provider.</p>
+    <select id="paymentMethod"><option>Mobile Money</option><option>Card</option><option>Bank Transfer</option></select>
+    <button onclick="paymentDemo()">Continue to payment</button>
+    <div id="paymentStatus" class="status"></div>
+  </div>
+</section>
+
+<section id="settings" class="page">
+  <h2>🌐 Language / Lugha</h2>
+  <div class="card">
+    <p>Choose your preferred language.</p>
+    <select id="language" onchange="changeLanguage(this.value)">
+      <option value="en">English</option><option value="sw">Kiswahili</option>
+    </select>
+    <p id="languageMessage" class="status"></p>
+  </div>
+</section>
 </main>
 
-<!-- Supabase Library -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0/dist/module.js" type="module"></script>
-
-<!-- Load Supabase via import for module support -->
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0/dist/module.js';
-  
-  // Make supabase globally available
-  const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your Supabase URL
-  const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase Anon Key
-  
-  window.supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
-</script>
-
-<!-- Main App Script -->
-<script src="app.js"></script>
+<footer>MWELEKEO © 2026 — AI Study Companion</footer>
 
 <script>
-// Wrapper functions for handling
-function handleAuthSignUp() {
-  const email = document.getElementById('authEmail').value;
-  const password = document.getElementById('authPassword').value;
-  if (!email || !password) return alert('Jaza email na password');
-  signUp(email, password);
+const $=id=>document.getElementById(id);
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ $(id).classList.add('active'); window.scrollTo(0,0);
 }
-
-function handleAuthSignIn() {
-  const email = document.getElementById('authEmail').value;
-  const password = document.getElementById('authPassword').value;
-  if (!email || !password) return alert('Jaza email na password');
-  signIn(email, password);
+function getData(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
+function setData(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function saveNote(){
+ const t=$('noteTitle').value.trim(), x=$('noteText').value.trim(); if(!t||!x)return alert('Enter note title and text.');
+ const a=getData('m_notes');a.unshift({t,x,date:new Date().toLocaleString()});setData('m_notes',a);$('noteTitle').value='';$('noteText').value='';renderNotes();
 }
-
-function handleAuthSignOut() {
-  signOut();
-  alert('Umetoka sehemu');
+function renderNotes(){const a=getData('m_notes');$('notesList').innerHTML='<b>Saved notes</b>'+ (a.length?a.map((n,i)=>`<div class="item"><b>${esc(n.t)}</b><div>${esc(n.x)}</div><span class="small">${n.date}</span> <button class="danger" onclick="del('m_notes',${i},renderNotes)">Delete</button></div>`).join(''):'<p class="small">No notes yet.</p>')}
+function saveSchedule(){
+ const s=$('schSubject').value.trim(),d=$('schDate').value,t=$('schTime').value,u=$('schDuration').value.trim();if(!s||!d||!t)return alert('Fill subject, date and time.');
+ const a=getData('m_schedule');a.push({s,d,t,u});a.sort((x,y)=>(x.d+x.t).localeCompare(y.d+y.t));setData('m_schedule',a);renderSchedule();
 }
-
-function handleUpload() {
-  let f = document.getElementById('file').files[0];
-  if (!f) return alert('Chagua file kwanza');
-  
-  uploadFile(f).then(() => {
-    document.getElementById('files').innerHTML += '<p>📄 ' + f.name + '</p>';
-    document.getElementById('file').value = '';
-  });
+function renderSchedule(){const a=getData('m_schedule');$('scheduleList').innerHTML='<b>Your timetable</b>'+ (a.length?a.map((n,i)=>`<div class="item"><b>${esc(n.s)}</b><br>${n.d} at ${n.t} ${n.u?'· '+esc(n.u):''}<br><button class="danger" onclick="del('m_schedule',${i},renderSchedule)">Delete</button></div>`).join(''):'<p class="small">No schedule items yet.</p>')}
+function addPost(){const n=$('postName').value.trim()||'Student',x=$('postText').value.trim();if(!x)return alert('Write a discussion first.');const a=getData('m_posts');a.unshift({n,x,date:new Date().toLocaleString()});setData('m_posts',a);$('postText').value='';renderPosts()}
+function renderPosts(){const a=getData('m_posts');$('postsList').innerHTML='<b>Recent discussions</b>'+ (a.length?a.map((p,i)=>`<div class="item"><b>${esc(p.n)}</b><div>${esc(p.x)}</div><span class="small">${p.date}</span></div>`).join(''):'<p class="small">No discussions yet.</p>')}
+function saveQuestion(){const s=$('questionSubject').value,x=$('questionText').value.trim();if(!x)return alert('Enter a question.');const a=getData('m_questions');a.unshift({s,x});setData('m_questions',a);$('questionText').value='';renderQuestions()}
+function renderQuestions(){const a=getData('m_questions');$('questionsList').innerHTML='<b>Saved questions</b>'+ (a.length?a.map((q,i)=>`<div class="item"><span class="badge">${esc(q.s)}</span><p>${esc(q.x)}</p><button onclick="answerLocal('${encodeURIComponent(q.x)}')">Ask AI</button></div>`).join(''):'<p class="small">No questions yet.</p>')}
+function answerLocal(q){showPage('ai');$('aiQuestion').value=decodeURIComponent(q);askAI()}
+function saveAssignment(){const t=$('assTitle').value.trim(),x=$('assText').value.trim();if(!t||!x)return alert('Enter assignment title and content.');const a=getData('m_assign');a.unshift({t,x,date:new Date().toLocaleString()});setData('m_assign',a);$('assTitle').value='';$('assText').value='';renderAssignments()}
+function renderAssignments(){const a=getData('m_assign');$('assignmentsList').innerHTML='<b>Saved assignments</b>'+ (a.length?a.map((q,i)=>`<div class="item"><b>${esc(q.t)}</b><p>${esc(q.x)}</p><span class="small">${q.date}</span> <button class="danger" onclick="del('m_assign',${i},renderAssignments)">Delete</button></div>`).join(''):'<p class="small">No assignments yet.</p>')}
+function del(k,i,fn){const a=getData(k);a.splice(i,1);setData(k,a);fn()}
+function handleFiles(files){const a=getData('m_files');[...files].forEach(f=>a.unshift({name:f.name,size:f.size,type:f.type}));setData('m_files',a);renderFiles()}
+function renderFiles(){const a=getData('m_files');$('fileList').innerHTML='<b>Your uploaded files</b>'+ (a.length?a.map(f=>`<div class="item">📎 <b>${esc(f.name)}</b><br><span class="small">${Math.round(f.size/1024)} KB</span></div>`).join(''):'<p class="small">No files uploaded yet.</p>')}
+function choosePlan(p){localStorage.setItem('m_plan',p);$('planBadge').textContent=p.toUpperCase()+' PLAN';alert(p+' plan selected. Connect a real payment provider before charging users.')}
+function paymentDemo(){$('paymentStatus').textContent='Payment flow selected: '+$('paymentMethod').value+'. Connect your real payment gateway to process transactions.'}
+function askAI(){
+ const q=$('aiQuestion').value.trim();if(!q)return alert('Type or speak a question first.');
+ const plan=localStorage.getItem('m_plan')||'Free';
+ let answer='I am the MWELEKEO study assistant demo. I received your question: "'+q+'". For a real AI answer, connect this app to your AI backend/API. Meanwhile, use the study library, notes, questions and assignments tools.';
+ if(plan==='Basic'||plan==='Pro') answer+=' Voice question and read-aloud features are enabled in this prototype.';
+ $('aiAnswer').innerHTML='<b>AI answer</b><p>'+esc(answer)+'</p>';
 }
-
-function handleSaveNote() {
-  let n = document.getElementById('note').value;
-  if (!n) return;
-  saveNote(n);
+let recognition=null;
+function startVoice(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){$('voiceStatus').textContent='Voice recognition is not supported by this browser.';return}
+ recognition=new SR();recognition.lang=(localStorage.getItem('m_lang')==='sw'?'sw-TZ':'en-US');recognition.interimResults=false;
+ recognition.onstart=()=>{$('voiceStatus').textContent='🎙️ Listening... Speak now.'};
+ recognition.onresult=e=>{$('aiQuestion').value=e.results[0][0].transcript;$('voiceStatus').textContent='Voice captured. Press Ask AI.'};
+ recognition.onerror=e=>$('voiceStatus').textContent='Voice error: '+e.error;
+ recognition.start();
 }
-
-function handleSaveSchedule() {
-  let s = document.getElementById('subject').value;
-  let t = document.getElementById('time').value;
-  if (!s || !t) return alert('Jaza somo na muda');
-  saveSchedule(s, t);
+function stopVoice(){if(recognition)recognition.stop();$('voiceStatus').textContent='Stopped.'}
+function speakAnswer(){
+ const text=$('aiAnswer').innerText;if(!('speechSynthesis' in window)){alert('Text-to-speech is not supported.');return}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=localStorage.getItem('m_lang')==='sw'?'sw-TZ':'en-US';speechSynthesis.speak(u)
 }
-
-function handlePost() {
-  let p = document.getElementById('post').value;
-  if (!p) return;
-  post(p);
-}
+function changeLanguage(v){localStorage.setItem('m_lang',v);$('languageMessage').textContent=v==='sw'?'Lugha imechaguliwa: Kiswahili.':'Language selected: English.'}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function renderFiles(){const a=getData('m_files');$('fileList').innerHTML='<b>Your uploaded files</b>'+ (a.length?a.map(f=>`<div class="item">📎 <b>${esc(f.name)}</b><br><span class="small">${Math.round(f.size/1024)} KB</span></div>`).join(''):'<p class="small">No files uploaded yet.</p>')}
+(function(){renderNotes();renderSchedule();renderPosts();renderQuestions();renderAssignments();renderFiles();$('planBadge').textContent=(localStorage.getItem('m_plan')||'Free').toUpperCase()+' PLAN';$('language').value=localStorage.getItem('m_lang')||'en'})()
 </script>
-
 </body>
 </html>
