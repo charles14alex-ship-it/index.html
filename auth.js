@@ -5,7 +5,7 @@ import { createClient } from
 const SUPABASE_URL =
   'https://jhwrqiavorsmcqubqlug.supabase.co'
 
-const SUPABASE_KEY = '<WEKA_PUBLISHABLE_OR_ANON_KEY_HAPA>'
+(const Supabase_ key ='<sb_publishable_AKtgJINJcfimlas-1bUE0w_3XM_ Zjc3>'
 
 // Tengeneza Supabase client
 const supabase = createClient(
