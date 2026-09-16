@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>Mwelekeo App V1.1</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#182235;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.top{
+ background:#101827;color:white;padding:16px;position:sticky;top:0;z-index:20;
+ display:flex;justify-content:space-between;align-items:center
+}
+.logo{font-size:22px;font-weight:bold}
+.container{max-width:1100px;margin:auto;padding:16px}
+.card{
+ background:white;border-radius:18px;padding:18px;margin-bottom:15px;
+ box-shadow:0 4px 18px rgba(0,0,0,.07)
+}
+.hero{
+ background:linear-gradient(135deg,#172554,#2563eb);
+ color:white;border-radius:22px;padding:25px;margin-bottom:16px
+}
+.hero h1{margin:0 0 8px}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px
+}
+.menu{
+ background:white;border:0;border-radius:16px;padding:18px;min-height:105px;
+ box-shadow:0 3px 12px rgba(0,0,0,.07);text-align:left
+}
+.menu strong{display:block;margin-top:10px}
+.icon{font-size:28px}
+section{display:none}
+section.active{display:block}
+input,textarea,select{
+ width:100%;padding:12px;border:1px solid #d6dce7;border-radius:10px;
+ margin:7px 0 12px;background:white
+}
+textarea{min-height:100px;resize:vertical}
+.btn{
+ border:0;border-radius:11px;padding:12px 16px;background:#2563eb;color:white;
+ margin:4px
+}
+.btn.secondary{background:#64748b}
+.btn.success{background:#16a34a}
+.btn.danger{background:#dc2626}
+.btn.dark{background:#111827}
+.btn.light{background:#e5e7eb;color:#111827}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.badge{
+ display:inline-block;padding:6px 10px;border-radius:20px;background:#e0ecff;
+ color:#174ea6;font-size:12px;font-weight:bold
+}
+.price{
+ font-size:30px;font-weight:bold;color:#2563eb
+}
+.ai-box{
+ min-height:250px;background:#f8fafc;border-radius:15px;padding:14px;
+ overflow:auto
+}
+.message{
+ padding:12px;margin:8px 0;border-radius:12px;max-width:92%
+}
+.user-msg{background:#dbeafe;margin-left:auto}
+.ai-msg{background:#e5e7eb}
+.bottom{
+ position:fixed;bottom:0;left:0;right:0;background:white;
+ border-top:1px solid #ddd;padding:8px;display:flex;justify-content:space-around;
+ z-index:30
+}
+.bottom button{border:0;background:white;font-size:11px}
+.small{font-size:13px;color:#64748b}
+.hidden{display:none!important}
+.file{
+ border:1px dashed #94a3b8;padding:18px;border-radius:12px;text-align:center
+}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}
+.notice{
+ padding:12px;border-radius:10px;background:#fff7ed;color:#9a3412;margin:10px 0
+}
+.successbox{
+ padding:12px;border-radius:10px;background:#ecfdf5;color:#166534;margin:10px 0
+}
+@media(min-width:800px){
+ .bottom{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+ <div class="logo">🎓 MWELEKEO</div>
+ <button class="btn light" onclick="showSection('home')">Home</button>
+</header>
+
+<main class="container">
+
+<!-- HOME -->
+<section id="home" class="active">
+ <div class="hero">
+  <h1>Karibu Mwelekeo 👋</h1>
+  <p>AI Education Assistant kwa mwanafunzi wa chuo.</p>
+  <span class="badge">V1.1</span>
+ </div>
+
+ <div class="grid">
+  <button class="menu" onclick="showSection('library')">
+   <span class="icon">📚</span><strong>Maktaba</strong>
+   <span class="small">Masomo na materials</span>
+  </button>
+
+  <button class="menu" onclick="showSection('notes')">
+   <span class="icon">📝</span><strong>Notes</strong>
+   <span class="small">Notes zako</span>
+  </button>
+
+  <button class="menu" onclick="showSection('schedule')">
+   <span class="icon">📅</span><strong>Ratiba</strong>
+   <span class="small">Ratiba ya masomo</span>
+  </button>
+
+  <button class="menu" onclick="showSection('ai')">
+   <span class="icon">🤖</span><strong>AI Msaidizi</strong>
+   <span class="small">Uliza swali</span>
+  </button>
+
+  <button class="menu" onclick="showSection('assignments')">
+   <span class="icon">📋</span><strong>Assignments</strong>
+   <span class="small">Kazi zako</span>
+  </button>
+
+  <button class="menu" onclick="showSection('discussion')">
+   <span class="icon">💬</span><strong>Discussion</strong>
+   <span class="small">Jadili na wengine</span>
+  </button>
+
+  <button class="menu" onclick="showSection('exam')">
+   <span class="icon">🧠</span><strong>Exam Mode</strong>
+   <span class="small">Jifanyie mtihani</span>
+  </button>
+
+  <button class="menu" onclick="showSection('plans')">
+   <span class="icon">💳</span><strong>Plans</strong>
+   <span class="small">Free / Basic / Pro</span>
+  </button>
+
+  <button class="menu" onclick="showSection('feedback')">
+   <span class="icon">💡</span><strong>Sanduku la Maoni</strong>
+   <span class="small">Tuma maoni</span>
+  </button>
+
+  <button class="menu" onclick="showSection('profile')">
+   <span class="icon">👤</span><strongProfile</strong>
+   <span class="small">Akaunti</span>
+  </button>
+ </div>
+</section>
+
+
+<!-- LIBRARY -->
+<section id="library">
+ <div class="card">
+  <h2>📚 Maktaba ya Masomo</h2>
+  <p class="small">Tafuta subject, notes, questions au materials.</p>
+  <input id="librarySearch" placeholder="Tafuta somo..." oninput="searchLibrary()">
+ </div>
+
+ <div id="libraryList">
+  <div class="card libraryItem"><h3>📘 Accounting</h3><p>Financial Accounting, Cost Accounting, Public Sector Accounting.</p></div>
+  <div class="card libraryItem"><h3>📗 Economics</h3><p>Microeconomics, Macroeconomics, Development Economics.</p></div>
+  <div class="card libraryItem"><h3>📙 Business</h3><p>Management, Marketing, Entrepreneurship.</p></div>
+  <div class="card libraryItem"><h3>📕 Taxation</h3><p>Tax calculations, PAYE, taxable income.</p></div>
+  <div class="card libraryItem"><h3>📒 Statistics</h3><p>Probability, regression, sampling and calculations.</p></div>
+ </div>
+
+ <button class="btn" onclick="showSection('notes')">➕ Upload/Manage Notes</button>
+</section>
+
+
+<!-- NOTES -->
+<section id="notes">
+ <div class="card">
+  <h2>📝 Notes</h2>
+  <p>Ongeza notes zako na materials za masomo.</p>
+
+  <input id="noteTitle" placeholder="Jina la note">
+  <textarea id="noteText" placeholder="Andika note hapa..."></textarea>
+
+  <button class="btn" onclick="saveNote()">💾 Save Note</button>
+
+  <div class="file">
+   📤 Upload file
+   <input type="file" id="noteFile">
+   <button class="btn secondary" onclick="uploadNote()">Upload</button>
+  </div>
+ </div>
+
+ <div id="notesList"></div>
+</section>
+
+
+<!-- SCHEDULE -->
+<section id="schedule">
+ <div class="card">
+  <h2>📅 Ratiba ya Masomo</h2>
+
+  <input id="day" placeholder="Siku mfano Monday">
+  <input id="time" placeholder="Muda mfano 08:00 - 10:00">
+  <input id="subject" placeholder="Subject">
+  <input id="room" placeholder="Room / Venue">
+
+  <button class="btn" onclick="addSchedule()">➕ Ongeza</button>
+ </div>
+
+ <div id="scheduleList"></div>
+</section>
+
+
+<!-- AI -->
+<section id="ai">
+ <div class="card">
+  <h2>🤖 Mwelekeo AI</h2>
+
+  <div class="notice">
+   Free: maswali 2 ya AI kwa siku. Basic: maswali 10 ya sauti.
+   Pro: matumizi ya AI kulingana na subscription yako.
+  </div>
+
+  <div id="usage" class="successbox"></div>
+
+  <div class="ai-box" id="chatBox">
+   <div class="message ai-msg">
+    👋 Habari! Mimi ni Mwelekeo AI. Niulize swali la masomo.
+   </div>
+  </div>
+
+  <textarea id="question" placeholder="Andika swali lako hapa..."></textarea>
+
+  <div class="row">
+   <button class="btn" onclick="askAI()">🤖 Uliza AI</button>
+   <button class="btn secondary" onclick="startVoice()">🎤 Ongea</button>
+   <button class="btn success" onclick="speakLast()">🔊 Soma Jibu</button>
+   <button class="btn danger" onclick="stopSpeaking()">⏹️ Stop</button>
+  </div>
+
+  <p class="small" id="voiceStatus"></p>
+ </div>
+</section>
+
+
+<!-- ASSIGNMENTS -->
+<section id="assignments">
+ <div class="card">
+  <h2>📋 Assignments</h2>
+  <input id="assignmentTitle" placeholder="Jina la assignment">
+  <input id="assignmentDue" type="date">
+  <textarea id="assignmentDescription" placeholder="Maelezo"></textarea>
+  <button class="btn" onclick="addAssignment()">➕ Save Assignment</button>
+ </div>
+ <div id="assignmentList"></div>
+</section>
+
+
+<!-- DISCUSSION -->
+<section id="discussion">
+ <div class="card">
+  <h2>💬 Online Discussion</h2>
+  <input id="discussionName" placeholder="Jina lako">
+  <textarea id="discussionText" placeholder="Andika mada au swali..."></textarea>
+  <button class="btn" onclick="postDiscussion()">Post</button>
+ </div>
+
+ <div id="discussionList"></div>
+</section>
+
+
+<!-- EXAM -->
+<section id="exam">
+ <div class="card">
+  <h2>🧠 Exam Mode</h2>
+  <p>Jibu swali kisha angalia jibu.</p>
+
+  <h3 id="examQuestion">Question loading...</h3>
+
+  <textarea id="examAnswer" placeholder="Andika jibu lako..."></textarea>
+
+  <button class="btn" onclick="checkExam()">Check Answer</button>
+  <button class="btn secondary" onclick="nextExam()">Next Question</button>
+
+  <div id="examResult"></div>
+ </div>
+</section>
+
+
+<!-- PLANS -->
+<section id="plans">
+ <div class="card">
+  <h2>💳 Mwelekeo Plans</h2>
+  <p>Chagua level inayokufaa.</p>
+ </div>
+
+ <div class="grid">
+
+  <div class="card">
+   <h3>FREE</h3>
+   <div class="price">$0</div>
+   <p>✓ Maktaba</p>
+   <p>✓ Notes</p>
+   <p>✓ Ratiba</p>
+   <p>✓ AI questions 2</p>
+   <p>✓ Voice AI</p>
+   <button class="btn" onclick="selectPlan('Free')">Current Plan</button>
+  </div>
+
+  <div class="card">
+   <h3>BASIC</h3>
+   <div class="price">$4.90</div>
+   <p>✓ Features za Free</p>
+   <p>✓ AI iliyoboreshwa</p>
+   <p>✓ Voice questions 10</p>
+   <p>✓ Assignments</p>
+   <p>✓ More study tools</p>
+   <button class="btn success" onclick="selectPlan('Basic')">Choose Basic</button>
+  </div>
+
+  <div class="card">
+   <h3>PRO</h3>
+   <div class="price">PRO</div>
+   <p>✓ Advanced AI</p>
+   <p>✓ AI tools</p>
+   <p>✓ Voice AI</p>
+   <p>✓ Exam Mode</p>
+   <p>✓ Advanced study tools</p>
+   <button class="btn dark" onclick="selectPlan('Pro')">Choose Pro</button>
+  </div>
+
+ </div>
+
+ <div class="card">
+  <h3>Payment</h3>
+  <p class="small">
+   Payment gateway itaunganishwa kwenye backend kabla ya malipo halisi.
+  </p>
+  <button class="btn" onclick="showPayment()">Proceed to Payment</button>
+ </div>
+</section>
+
+
+<!-- FEEDBACK -->
+<section id="feedback">
+ <div class="card">
+  <h2>💡 Sanduku la Maoni</h2>
+  <p>Tuma wazo, complaint, request au suggestion.</p>
+
+  <input id="feedbackName" placeholder="Jina">
+  <select id="feedbackType">
+   <option>Suggestion</option>
+   <option>Complaint</option>
+   <option>Request</option>
+   <option>Other</option>
+  </select>
+
+  <textarea id="feedbackText" placeholder="Andika maoni yako..."></textarea>
+
+  <button class="btn" onclick="sendFeedback()">📨 Tuma Maoni</button>
+ </div>
+
+ <div id="feedbackList"></div>
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile">
+ <div class="card">
+  <h2>👤 Profile</h2>
+
+  <input id="profileName" placeholder="Jina lako">
+  <input id="profileUniversity" placeholder="Chuo">
+  <input id="profileCourse" placeholder="Course">
+  <input id="profileYear" placeholder="Year of Study">
+
+  <button class="btn" onclick="saveProfile()">Save Profile</button>
+ </div>
+
+ <div class="card">
+  <h3>Current Plan</h3>
+  <div id="currentPlan">Free</div>
+ </div>
+
+ <div class="card">
+  <h3>🌐 Language</h3>
+  <button class="btn light" onclick="setLanguage('sw')">Kiswahili</button>
+  <button class="btn light" onclick="setLanguage('en')">English</button>
+ </div>
+</section>
+
+
+<!-- OWNER -->
+<section id="owner">
+ <div class="card">
+  <h2>🔐 Owner / Admin</h2>
+
+  <div class="notice">
+   Sehemu hii ni kwa owner/admin pekee. Secrets za API hazionyeshwi hapa.
+  </div>
+
+  <input id="ownerEmail" placeholder="Owner email">
+  <input id="ownerName" placeholder="Owner name">
+
+  <button class="btn dark" onclick="saveOwner()">Save Owner Settings</button>
+
+  <h3>App Statistics</h3>
+  <div id="stats"></div>
+
+  <h3>Feedback received</h3>
+  <div id="ownerFeedback"></div>
+ </div>
+</section>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+<nav class="bottom">
+ <button onclick="showSection('home')">🏠<br>Home</button>
+ <button onclick="showSection('library')">📚<br>Library</button>
+ <button onclick="showSection('schedule')">📅<br>Ratiba</button>
+ <button onclick="showSection('ai')">🤖<br>AI</button>
+ <button onclick="showSection('profile')">👤<br>Profile</button>
+</nav>
+
+
+<script>
+
+/* =========================================================
+   MWELEKEO V1.1
+   FRONTEND CONFIGURATION
+   ========================================================= */
+
+/*
+  WEKA TAARIFA ZA SUPABASE YAKO MPYA HAPA.
+  Usiiweke OPENAI_API_KEY hapa.
+*/
+
+const SUPABASE_URL = "WEKA_SUPABASE_URL_HAPA";
+const SUPABASE_ANON_KEY = "WEKA_SUPABASE_ANON_KEY_HAPA";
+
+/*
+  Jina la Edge Function tulilounda:
+  mwelekeo-ai
+*/
+
+const AI_FUNCTION =
+  SUPABASE_URL + "/functions/v1/mwelekeo-ai";
+
+
+/* =========================================================
+   APP STATE
+   ========================================================= */
+
+let lastAIAnswer = "";
+let examIndex = 0;
+
+const examQuestions = [
+ {
+  q:"What is accounting?",
+  a:"Accounting is the systematic process of identifying, recording, classifying, summarising and communicating financial information."
+ },
+ {
+  q:"What is the basic accounting equation?",
+  a:"Assets = Capital + Liabilities."
+ },
+ {
+  q:"What is an asset?",
+  a:"An asset is a resource controlled by an entity from which future economic benefits are expected."
+ },
+ {
+  q:"What is a liability?",
+  a:"A liability is a present obligation arising from past events."
+ },
+ {
+  q:"What is profit?",
+  a:"Profit is the excess of income over expenses for a period."
+ }
+];
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function showSection(id){
+
+ document.querySelectorAll("section").forEach(s=>{
+   s.classList.remove("active");
+ });
+
+ const section=document.getElementById(id);
+
+ if(section){
+   section.classList.add("active");
+   window.scrollTo(0,0);
+ }
+
+ if(id==="owner"){
+   loadOwner();
+ }
+}
+
+
+/* =========================================================
+   LOCAL STORAGE HELPERS
+   ========================================================= */
+
+function getData(key, fallback=[]){
+ try{
+  return JSON.parse(localStorage.getItem(key)) || fallback;
+ }catch(e){
+  return fallback;
+ }
+}
+
+function saveData(key,data){
+ localStorage.setItem(key,JSON.stringify(data));
+}
+
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+function saveNote(){
+
+ const title=document.getElementById("noteTitle").value.trim();
+ const text=document.getElementById("noteText").value.trim();
+
+ if(!title || !text){
+   alert("Jaza title na note.");
+   return;
+ }
+
+ const notes=getData("mwelekeo_notes");
+
+ notes.push({
+  id:Date.now(),
+  title,
+  text,
+  date:new Date().toLocaleString()
+ });
+
+ saveData("mwelekeo_notes",notes);
+
+ document.getElementById("noteTitle").value="";
+ document.getElementById("noteText").value="";
+
+ loadNotes();
+
+ alert("Note imehifadhiwa.");
+}
+
+function loadNotes(){
+
+ const notes=getData("mwelekeo_notes");
+ const box=document.getElementById("notesList");
+
+ box.innerHTML="";
+
+ if(!notes.length){
+  box.innerHTML='<div class="card">Hakuna notes bado.</div>';
+  return;
+ }
+
+ notes.reverse().forEach(note=>{
+
+  const div=document.createElement("div");
+  div.className="card";
+
+  div.innerHTML=`
+   <h3>${escapeHTML(note.title)}</h3>
+   <p>${escapeHTML(note.text)}</p>
+   <p class="small">${note.date}</p>
+   <button class="btn danger" onclick="deleteNote(${note.id})">
+    Delete
+   </button>
+  `;
+
+  box.appendChild(div);
+ });
+}
+
+function deleteNote(id){
+
+ let notes=getData("mwelekeo_notes");
+
+ notes=notes.filter(n=>n.id!==id);
+
+ saveData("mwelekeo_notes",notes);
+
+ loadNotes();
+}
+
+function uploadNote(){
+
+ const file=document.getElementById("noteFile").files[0];
+
+ if(!file){
+  alert("Chagua file kwanza.");
+  return;
+ }
+
+ alert(
+  "File imechaguliwa: "+file.name+
+  "\nUpload ya kudumu itahitaji Supabase Storage."
+ );
+}
+
+
+/* =========================================================
+   SCHEDULE
+   ========================================================= */
+
+function addSchedule(){
+
+ const day=document.getElementById("day").value.trim();
+ const time=document.getElementById("time").value.trim();
+ const subject=document.getElementById("subject").value.trim();
+ const room=document.getElementById("room").value.trim();
+
+ if(!day || !time || !subject){
+  alert("Jaza siku, muda na subject.");
+  return;
+ }
+
+ const list=getData("mwelekeo_schedule");
+
+ list.push({
+  id:Date.now(),
+  day,time,subject,room
+ });
+
+ saveData("mwelekeo_schedule",list);
+
+ document.getElementById("day").value="";
+ document.getElementById("time").value="";
+ document.getElementById("subject").value="";
+ document.getElementById("room").value="";
+
+ loadSchedule();
+}
+
+function loadSchedule(){
+
+ const list=getData("mwelekeo_schedule");
+ const box=document.getElementById("scheduleList");
+
+ box.innerHTML="";
+
+ list.forEach(item=>{
+
+  box.innerHTML+=`
+   <div class="card">
+    <span class="badge">${escapeHTML(item.day)}</span>
+    <h3>${escapeHTML(item.subject)}</h3>
+    <p>🕐 ${escapeHTML(item.time)}</p>
+    <p>📍 ${escapeHTML(item.room || "—")}</p>
+    <button class="btn danger"
+     onclick="deleteSchedule(${item.id})">Delete</button>
+   </div>
+  `;
+ });
+}
+
+function deleteSchedule(id){
+
+ let list=getData("mwelekeo_schedule");
+
+ list=list.filter(x=>x.id!==id);
+
+ saveData("mwelekeo_schedule",list);
+
+ loadSchedule();
+}
+
+
+/* =========================================================
+   AI
+   ========================================================= */
+
+async function askAI(){
+
+ const input=document.getElementById("question");
+ const question=input.value.trim();
+
+ if(!question){
+  alert("Andika au sema swali kwanza.");
+  return;
+ }
+
+ const plan=localStorage.getItem("mwelekeo_plan") || "Free";
+
+ let used=Number(localStorage.getItem("mwelekeo_ai_used") || 0);
+
+ if(plan==="Free" && used>=2){
+  alert("Free plan imefikia maswali 2. Chagua Basic au Pro.");
+  showSection("plans");
+  return;
+ }
+
+ if(plan==="Basic" && used>=10){
+  alert("Basic plan imefikia matumizi 10 ya AI.");
+  showSection("plans");
+  return;
+ }
+
+ addMessage(question,"user");
+
+ input.value="";
+
+ addMessage("⏳ Mwelekeo AI anafikiria...","ai");
+
+ try{
+
+  if(
+   SUPABASE_URL.includes("WEKA_") ||
+   SUPABASE_ANON_KEY.includes("WEKA_")
+  ){
+
+   replaceLastAI(
+    "AI bado haijaunganishwa. Weka SUPABASE_URL na SUPABASE_ANON_KEY kwenye code."
+   );
+
+   return;
+  }
+
+  const response=await fetch(AI_FUNCTION,{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "apikey":SUPABASE_ANON_KEY,
+    "Authorization":"Bearer "+SUPABASE_ANON_KEY
+   },
+   body:JSON.stringify({
+    question:question,
+    plan:plan,
+    language:localStorage.getItem("mwelekeo_language") || "sw"
+   })
+  });
+
+  const data=await response.json();
+
+  if(!response.ok){
+
+   replaceLastAI(
+    "AI Error: "+(data.error || "Unknown error")
+   );
+
+   return;
+  }
+
+  lastAIAnswer=data.answer || "Hakuna jibu.";
+
+  replaceLastAI(lastAIAnswer);
+
+  used++;
+
+  localStorage.setItem(
+   "mwelekeo_ai_used",
+   String(used)
+  );
+
+  updateUsage();
+
+ }catch(error){
+
+  replaceLastAI(
+   "Imeshindikana kuwasiliana na AI. Hakikisha Supabase Edge Function ime-deploy."
+  );
+
+  console.error(error);
+ }
+}
+
+function addMessage(text,type){
+
+ const box=document.getElementById("chatBox");
+
+ const div=document.createElement("div");
+
+ div.className=
+  "message "+
+  (type==="user" ? "user-msg":"ai-msg");
+
+ div.textContent=text;
+
+ box.appendChild(div);
+
+ box.scrollTop=box.scrollHeight;
+}
+
+function replaceLastAI(text){
+
+ const messages=
+  document.querySelectorAll("#chatBox .ai-msg");
+
+ if(messages.length){
+
+  messages[messages.length-1].textContent=text;
+
+ }else{
+
+  addMessage(text,"ai");
+ }
+}
+
+function updateUsage(){
+
+ const plan=localStorage.getItem("mwelekeo_plan") || "Free";
+
+ const used=Number(
+  localStorage.getItem("mwelekeo_ai_used") || 0
+ );
+
+ let limit="Unlimited";
+
+ if(plan==="Free")limit="2";
+ if(plan==="Basic")limit="10";
+
+ document.getElementById("usage").textContent=
+  "Plan: "+plan+" | AI usage: "+used+" / "+limit;
+}
+
+
+/* =========================================================
+   VOICE INPUT
+   ========================================================= */
+
+function startVoice(){
+
+ const SpeechRecognition=
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+ if(!SpeechRecognition){
+
+  alert("Browser yako haitumii voice recognition.");
+  return;
+ }
+
+ const recognition=new SpeechRecognition();
+
+ recognition.lang=
+  localStorage.getItem("mwelekeo_language")==="en"
+  ? "en-US"
+  : "sw-TZ";
+
+ recognition.interimResults=true;
+
+ document.getElementById("voiceStatus").textContent=
+  "🎤 Nasikiliza...";
+
+ recognition.onresult=function(event){
+
+  let text="";
+
+  for(
+   let i=event.resultIndex;
+   i<event.results.length;
+   i++
+  ){
+
+   text+=event.results[i][0].transcript;
+  }
+
+  document.getElementById("question").value=text;
+ };
+
+ recognition.onend=function(){
+
+  document.getElementById("voiceStatus").textContent=
+   "Voice imekamilika.";
+
+  if(document.getElementById("question").value.trim()){
+   askAI();
+  }
+ };
+
+ recognition.onerror=function(){
+
+  document.getElementById("voiceStatus").textContent=
+   "Voice haikufanya kazi.";
+ };
+
+ recognition.start();
+}
+
+
+/* =========================================================
+   TEXT TO SPEECH
+   ========================================================= */
+
+function speakLast(){
+
+ if(!lastAIAnswer){
+
+  alert("Hakuna jibu la kusoma.");
+  return;
+ }
+
+ stopSpeaking();
+
+ const speech=new SpeechSynthesisUtterance(
+  lastAIAnswer
+ );
+
+ speech.lang=
+  localStorage.getItem("mwelekeo_language")==="en"
+  ? "en-US"
+  : "sw-TZ";
+
+ speech.rate=.95;
+
+ window.speechSynthesis.speak(speech);
+}
+
+function stopSpeaking(){
+
+ if(window.speechSynthesis){
+  window.speechSynthesis.cancel();
+ }
+}
+
+
+/* =========================================================
+   ASSIGNMENTS
+   ========================================================= */
+
+function addAssignment(){
+
+ const title=
+  document.getElementById("assignmentTitle").value.trim();
+
+ const due=
+  document.getElementById("assignmentDue").value;
+
+ const description=
+  document.getElementById("assignmentDescription").value.trim();
+
+ if(!title){
+  alert("Weka jina la assignment.");
+  return;
+ }
+
+ const list=getData("mwelekeo_assignments");
+
+ list.push({
+  id:Date.now(),
+  title,
+  due,
+  description,
+  completed:false
+ });
+
+ saveData("mwelekeo_assignments",list);
+
+ document.getElementById("assignmentTitle").value="";
+ document.getElementById("assignmentDue").value="";
+ document.getElementById("assignmentDescription").value="";
+
+ loadAssignments();
+}
+
+function loadAssignments(){
+
+ const list=getData("mwelekeo_assignments");
+
+ const box=document.getElementById("assignmentList");
+
+ box.innerHTML="";
+
+ list.forEach(a=>{
+
+  box.innerHTML+=`
+   <div class="card">
+    <h3>${escapeHTML(a.title)}</h3>
+    <p>Due: ${escapeHTML(a.due || "Not set")}</p>
+    <p>${escapeHTML(a.description)}</p>
+
+    <button class="btn success"
+     onclick="completeAssignment(${a.id})">
+     ${a.completed?"✓ Completed":"Mark Complete"}
+    </button>
+
+    <button class="btn danger"
+     onclick="deleteAssignment(${a.id})">
+     Delete
+    </button>
+   </div>
+  `;
+ });
+}
+
+function completeAssignment(id){
+
+ const list=getData("mwelekeo_assignments");
+
+ const item=list.find(x=>x.id===id);
+
+ if(item)item.completed=!item.completed;
+
+ saveData("mwelekeo_assignments",list);
+
+ loadAssignments();
+}
+
+function deleteAssignment(id){
+
+ let list=getData("mwelekeo_assignments");
+
+ list=list.filter(x=>x.id!==id);
+
+ saveData("mwelekeo_assignments",list);
+
+ loadAssignments();
+}
+
+
+/* =========================================================
+   DISCUSSION
+   ========================================================= */
+
+function postDiscussion(){
+
+ const name=
+  document.getElementById("discussionName").value.trim();
+
+ const text=
+  document.getElementById("discussionText").value.trim();
+
+ if(!name || !text){
+  alert("Jaza jina na ujumbe.");
+  return;
+ }
+
+ const posts=getData("mwelekeo_discussion");
+
+ posts.unshift({
+  id:Date.now(),
+  name,
+  text,
+  date:new Date().toLocaleString()
+ });
+
+ saveData("mwelekeo_discussion",posts);
+
+ document.getElementById("discussionText").value="";
+
+ loadDiscussion();
+}
+
+function loadDiscussion(){
+
+ const posts=getData("mwelekeo_discussion");
+
+ const box=document.getElementById("discussionList");
+
+ box.innerHTML="";
+
+ posts.forEach(p=>{
+
+  box.innerHTML+=`
+   <div class="card">
+    <strong>👤 ${escapeHTML(p.name)}</strong>
+    <p>${escapeHTML(p.text)}</p>
+    <span class="small">${p.date}</span>
+   </div>
+  `;
+ });
+}
+
+
+/* =========================================================
+   EXAM MODE
+   ========================================================= */
+
+function loadExam(){
+
+ const item=examQuestions[examIndex];
+
+ document.getElementById("examQuestion").textContent=
+  (examIndex+1)+". "+item.q;
+
+ document.getElementById("examAnswer").value="";
+
+ document.getElementById("examResult").innerHTML="";
+}
+
+function checkExam(){
+
+ const answer=
+  document.getElementById("examAnswer").value.trim();
+
+ if(!answer){
+  alert("Andika jibu kwanza.");
+  return;
+ }
+
+ const correct=examQuestions[examIndex].a;
+
+ document.getElementById("examResult").innerHTML=`
+  <div class="successbox">
+   <strong>Model Answer:</strong><br>
+   ${escapeHTML(correct)}
+  </div>
+ `;
+}
+
+function nextExam(){
+
+ examIndex++;
+
+ if(examIndex>=examQuestions.length){
+  examIndex=0;
+ }
+
+ loadExam();
+}
+
+
+/* =========================================================
+   PLANS
+   ========================================================= */
+
+function selectPlan(plan){
+
+ if(plan==="Free"){
+
+  localStorage.setItem("mwelekeo_plan","Free");
+  updatePlanUI();
+
+  alert("Free plan imechaguliwa.");
+  return;
+ }
+
+ localStorage.setItem("mwelekeo_pending_plan",plan);
+
+ alert(
+  "Umechagua "+plan+
+  ". Payment gateway itaunganishwa kupitia backend."
+ );
+
+ showPayment();
+}
+
+function showPayment(){
+
+ alert(
+  "Payment system placeholder.\n\n"+
+  "Kwa malipo halisi tutaunganisha payment provider kwenye backend."
+ );
+}
+
+function updatePlanUI(){
+
+ const plan=
+  localStorage.getItem("mwelekeo_plan") || "Free";
+
+ document.getElementById("currentPlan").textContent=plan;
+
+ updateUsage();
+}
+
+
+/* =========================================================
+   FEEDBACK
+   ========================================================= */
+
+function sendFeedback(){
+
+ const name=
+  document.getElementById("feedbackName").value.trim();
+
+ const type=
+  document.getElementById("feedbackType").value;
+
+ const text=
+  document.getElementById("feedbackText").value.trim();
+
+ if(!text){
+  alert("Andika maoni kwanza.");
+  return;
+ }
+
+ const list=getData("mwelekeo_feedback");
+
+ list.unshift({
+  id:Date.now(),
+  name:name || "Anonymous",
+  type,
+  text,
+  date:new Date().toLocaleString()
+ });
+
+ saveData("mwelekeo_feedback",list);
+
+ document.getElementById("feedbackText").value="";
+
+ loadFeedback();
+
+ alert("Asante! Maoni yako yamepokelewa.");
+}
+
+function loadFeedback(){
+
+ const list=getData("mwelekeo_feedback");
+
+ const box=document.getElementById("feedbackList");
+
+ box.innerHTML="";
+
+ list.forEach(f=>{
+
+  box.innerHTML+=`
+   <div class="card">
+    <span class="badge">${escapeHTML(f.type)}</span>
+    <p>${escapeHTML(f.text)}</p>
+    <span class="small">
+     ${escapeHTML(f.name)} — ${f.date}
+    </span>
+   </div>
+  `;
+ });
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+function saveProfile(){
+
+ const profile={
+  name:document.getElementById("profileName").value,
+  university:document.getElementById("profileUniversity").value,
+  course:document.getElementById("profileCourse").value,
+  year:document.getElementById("profileYear").value
+ };
+
+ saveData("mwelekeo_profile",profile);
+
+ alert("Profile imehifadhiwa.");
+}
+
+function loadProfile(){
+
+ const p=
+  getData("mwelekeo_profile",null);
+
+ if(!p)return;
+
+ document.getElementById("profileName").value=p.name || "";
+ document.getElementById("profileUniversity").value=p.university || "";
+ document.getElementById("profileCourse").value=p.course || "";
+ document.getElementById("profileYear").value=p.year || "";
+}
+
+
+/* =========================================================
+   LANGUAGE
+   ========================================================= */
+
+function setLanguage(lang){
+
+ localStorage.setItem(
+  "mwelekeo_language",
+  lang
+ );
+
+ alert(
+  lang==="sw"
+  ? "Lugha: Kiswahili"
+  : "Language: English"
+ );
+}
+
+
+/* =========================================================
+   OWNER
+   ========================================================= */
+
+function saveOwner(){
+
+ const owner={
+  name:document.getElementById("ownerName").value,
+  email:document.getElementById("ownerEmail").value
+ };
+
+ saveData("mwelekeo_owner",owner);
+
+ alert("Owner settings zimehifadhiwa.");
+}
+
+function loadOwner(){
+
+ const owner=
+  getData("mwelekeo_owner",null);
+
+ if(owner){
+
+  document.getElementById("ownerName").value=
+   owner.name || "";
+
+  document.getElementById("ownerEmail").value=
+   owner.email || "";
+ }
+
+ const notes=getData("mwelekeo_notes");
+ const assignments=getData("mwelekeo_assignments");
+ const feedback=getData("mwelekeo_feedback");
+ const discussion=getData("mwelekeo_discussion");
+
+ document.getElementById("stats").innerHTML=`
+  <p>📝 Notes: ${notes.length}</p>
+  <p>📋 Assignments: ${assignments.length}</p>
+  <p>💡 Feedback: ${feedback.length}</p>
+  <p>💬 Discussions: ${discussion.length}</p>
+ `;
+
+ const box=document.getElementById("ownerFeedback");
+
+ box.innerHTML="";
+
+ feedback.forEach(f=>{
+
+  box.innerHTML+=`
+   <div class="card">
+    <strong>${escapeHTML(f.type)}</strong>
+    <p>${escapeHTML(f.text)}</p>
+    <small>${escapeHTML(f.name)}</small>
+   </div>
+  `;
+ });
+}
+
+
+/* =========================================================
+   LIBRARY SEARCH
+   ========================================================= */
+
+function searchLibrary(){
+
+ const value=
+  document.getElementById("librarySearch")
+  .value.toLowerCase();
+
+ document.querySelectorAll(".libraryItem")
+ .forEach(item=>{
+
+  item.style.display=
+   item.textContent.toLowerCase().includes(value)
+   ? "block"
+   : "none";
+ });
+}
+
+
+/* =========================================================
+   SECURITY / HTML ESCAPE
+   ========================================================= */
+
+function escapeHTML(value){
+
+ return String(value || "")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   RESET DAILY AI LIMIT
+   ========================================================= */
+
+function resetDailyUsage(){
+
+ const today=
+  new Date().toISOString().slice(0,10);
+
+ const saved=
+  localStorage.getItem("mwelekeo_usage_date");
+
+ if(saved!==today){
+
+  localStorage.setItem(
+   "mwelekeo_usage_date",
+   today
+  );
+
+  localStorage.setItem(
+   "mwelekeo_ai_used",
+   "0"
+  );
+ }
+}
+
+
+/* =========================================================
+   INITIALIZE APP
+   ========================================================= */
+
+function initializeApp(){
+
+ resetDailyUsage();
+
+ loadNotes();
+ loadSchedule();
+ loadAssignments();
+ loadDiscussion();
+ loadFeedback();
+ loadProfile();
+ loadExam();
+
+ updatePlanUI();
+}
+
+initializeApp();
+
+</script>
+
+</body>
+</html>
